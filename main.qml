@@ -83,15 +83,24 @@ ApplicationWindow {
         }
     }
 
+    Repeater {
+        id: columns_description
+        model: ["3\n2", "5", "1\n1\n1\n1\n1\n1", "3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "2\n1\n2\n1"]
 
+        Text {
+            x: 0.35 * root.width + (25 * index) + 7
+            y: 0.23 * root.height - contentHeight
+            text: modelData
+        }
+    }
 
     Repeater {
         id: rows_description
-        model: ["3 2", "5", "1 1 1 1", "3 2", "5", "1 1 1", "3 2", "5", "1 1 1", "2 1 2 1"]
+        model: ["3 2", "5", "1 1 1 1 1 1", "3 2", "5", "1 1 1", "3 2", "5", "1 1 1", "2 1 2 1"]
 
         Text {
             x: 0.32 * root.width - contentWidth
-            y: 0.15 * root.height + (25 * index) + 5
+            y: 0.25 * root.height + (25 * index) + 5
             text: modelData
         }
     }
@@ -106,7 +115,7 @@ ApplicationWindow {
             width: 25
             height: width
             x: 0.35 * root.width + (width * (index % tile_repeater.puzzle_size))
-            y: 0.15 * root.height + (height * ~~(index/tile_repeater.puzzle_size))
+            y: 0.25 * root.height + (height * ~~(index/tile_repeater.puzzle_size))
             color: "white"
             border.color: "black"
             border.width: 1
@@ -145,15 +154,5 @@ ApplicationWindow {
         anchors.centerIn: parent
     }
 
-    Repeater {
-        id: columns_description
-        model: ["3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "2\n1\n2\n1"]
-
-        Text {
-            x: 0.35 * root.width + (25 * index) + 7 + tile.width
-            y: 0.13 * root.height - contentHeight
-            text: modelData
-        }
-    }
 
 }

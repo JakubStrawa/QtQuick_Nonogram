@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>About_dialog.qml</file>
+        <file>New_game_dialog.qml</file>
     </qresource>
 </RCC>

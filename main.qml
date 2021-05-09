@@ -35,13 +35,6 @@ ApplicationWindow {
              }
          }
 
-    About_dialog {
-        id: about_dialog
-        anchors.centerIn: parent
-    }
-
-
-
     Rectangle {
         width: 0.2 * parent.width
         height: parent.height
@@ -55,6 +48,10 @@ ApplicationWindow {
             width: 0.8 * parent.width
             height: 20
             text: "Check"
+            onClicked: {
+                column_repeater.itemAt(0).itemAt(0).tile_animation.start()
+            }
+
         }
 
         Label {
@@ -67,7 +64,7 @@ ApplicationWindow {
             id: mistakes_left_label
             anchors.centerIn: parent
             topPadding: 20
-            text: "100"
+            text: "0"
         }
 
         Label {
@@ -82,44 +79,81 @@ ApplicationWindow {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
-            text: "100"
+            text: "0"
         }
     }
 
-    Column {
-        id: column_puzzle
-        property int sizePuzzle: 5
-        x: 0.35 * root.width
-        y: 0.15 * root.height
-        Repeater {
-            model: column_puzzle.sizePuzzle
-            Row {
-                Repeater {
-                    model: column_puzzle.sizePuzzle
-                    Rectangle {
-                        width: 30
-                        height: width
-                        color: "white"
-                        border.color: "black"
-                        border.width: 2
-
-                        MouseArea {
-                            anchors.fill : parent
-                            onClicked: {
-                                if (parent.color == "blue") {
-                                    parent.color = "white"
-                                } else {
-                                    parent.color = "blue"
-                                }
 
 
-                            }
-                        }
+    Repeater {
+        id: rows_description
+        model: ["3 2", "5", "1 1 1 1", "3 2", "5", "1 1 1", "3 2", "5", "1 1 1", "2 1 2 1"]
+
+        Text {
+            x: 0.32 * root.width - contentWidth
+            y: 0.15 * root.height + (25 * index) + 5
+            text: modelData
+        }
+    }
+
+    Repeater {
+        id: tile_repeater
+        property int puzzle_size: 10
+        model: puzzle_size * puzzle_size
+
+        Rectangle {
+            id: tile
+            width: 25
+            height: width
+            x: 0.35 * root.width + (width * (index % tile_repeater.puzzle_size))
+            y: 0.15 * root.height + (height * ~~(index/tile_repeater.puzzle_size))
+            color: "white"
+            border.color: "black"
+            border.width: 1
+
+            NumberAnimation {
+                id: tile_animation
+                target: tile
+                property: "rotation"
+                from: 0
+                to: 360
+                duration: 10000
+                loops: Animation.Infinite
+            }
+
+            MouseArea {
+                anchors.fill : parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: {
+                    if (mouse.button == Qt.LeftButton) {
+                        Qt.colorEqual(parent.color, "blue") ? parent.color = "white" : parent.color = "blue"
+                    } else if (mouse.button == Qt.RightButton) {
+                        Qt.colorEqual(parent.color, "red") ? parent.color = "white" : parent.color = "red"
                     }
                 }
             }
         }
     }
 
+    New_game_dialog {
+        id: new_game_dialog
+        anchors.centerIn: parent
+    }
+
+    About_dialog {
+        id: about_dialog
+        anchors.centerIn: parent
+    }
+
+    Repeater {
+        id: columns_description
+        model: ["3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "2\n1\n2\n1"]
+
+        Text {
+            x: 0.35 * root.width + (25 * index) + 7 + tile.width
+            y: 0.13 * root.height - contentHeight
+            text: modelData
+        }
+    }
 
 }

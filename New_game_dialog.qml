@@ -29,7 +29,11 @@ Dialog {
     onAccepted: {
         mistakes_left_label.mistakes_left = -1
         lives_left_label.lives_left = lives_spin_box.value
-        nonogram_model.setSize(5 + 5*(size_combo_box.currentIndex))
         nonogram_model.setTheme(theme_combo_box.currentText)
+        nonogram_model.setSize(5 + 5*(size_combo_box.currentIndex))
+        check_button.enabled = true
+        for (var i=0; i<tile_repeater.count; i++){
+            tile_repeater.itemAt(i).color = "white"
+        }
     }
 }

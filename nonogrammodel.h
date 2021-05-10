@@ -45,7 +45,9 @@ public:
     QVector<int> userSolution() const;
 
     Q_INVOKABLE void setUserSolutionSpecific(int position, int value);
+    Q_INVOKABLE int getUserSolutionSpecific(int position);
     Q_INVOKABLE int checkUserSolution();
+    Q_INVOKABLE void resetModel();
 
 
 public slots:

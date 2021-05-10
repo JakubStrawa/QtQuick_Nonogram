@@ -4,7 +4,6 @@ import QtQuick.Controls 2.12
 import NonogramModel 1.0
 
 
-
 ApplicationWindow {
     id: root
     property var nmodel: NonogramModel
@@ -13,9 +12,6 @@ ApplicationWindow {
     visible: true
     color: "white"
     title: "Nonogram QtQuick"
-
-
-
 
     menuBar: MenuBar {
              Menu {
@@ -52,13 +48,20 @@ ApplicationWindow {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 20
+            enabled: false
             width: 0.8 * parent.width
             height: 20
             text: "Check"
             onClicked: {
                 lives_left_label.lives_left--
                 mistakes_left_label.mistakes_left = nonogram_model.checkUserSolution()
-                console.log(nonogram_model.userSolution)
+                if (lives_left_label.lives_left == 0){
+                    mistakes_left_label.mistakes_left == 0 ? you_won_dialog.open() : you_lost_dialog.open()
+                    check_button.enabled = false
+                } else if(mistakes_left_label.mistakes_left == 0){
+                    you_won_dialog.open()
+                    check_button.enabled = false
+                }
             }
 
         }
@@ -96,7 +99,6 @@ ApplicationWindow {
 
     Repeater {
         id: columns_description
-        //model: ["3\n2", "5", "1\n1\n1\n1\n1\n1", "3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "2\n1\n2\n1"]
         model: nonogram_model.columnDescription
 
         Text {
@@ -108,7 +110,6 @@ ApplicationWindow {
 
     Repeater {
         id: rows_description
-        //model: ["3 2", "5", "1 1 1 1 1 1", "3 2", "5", "1 1 1", "3 2", "5", "1 1 1", "2 1 2 1"]
         model: nonogram_model.rowDescription
 
         Text {
@@ -124,6 +125,7 @@ ApplicationWindow {
         model: puzzle_size * puzzle_size
 
         Rectangle {
+            property var colors: ["white", "blue", "red"]
             id: tile
             width: 25
             height: width
@@ -148,21 +150,19 @@ ApplicationWindow {
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
                     if (mouse.button == Qt.LeftButton) {
-                        if (Qt.colorEqual(parent.color, "blue")){
-                            parent.color = "white"
+                        if (nonogram_model.getUserSolutionSpecific(modelData) == 1){
                             nonogram_model.setUserSolutionSpecific(modelData, 0)
                         } else {
-                            parent.color = "blue"
                             nonogram_model.setUserSolutionSpecific(modelData, 1)
                         }
                     } else if (mouse.button == Qt.RightButton) {
-                        if (Qt.colorEqual(parent.color, "red")){
-                            parent.color = "white"
-                        } else {
-                            parent.color = "red"
+                        if (nonogram_model.getUserSolutionSpecific(modelData) == 2){
                             nonogram_model.setUserSolutionSpecific(modelData, 0)
+                        } else {
+                            nonogram_model.setUserSolutionSpecific(modelData, 2)
                         }
                     }
+                    parent.color = colors[nonogram_model.getUserSolutionSpecific(modelData)]
                 }
             }
         }
@@ -182,5 +182,28 @@ ApplicationWindow {
         id: nonogram_model
     }
 
+    Dialog {
+        id: you_won_dialog
+        anchors.centerIn: parent
+        modal: true
+        standardButtons: Dialog.Ok
+        title: "Congratulations"
+        Text {
+            font.pixelSize: 16
+            text: "You won!"
+        }
+    }
+
+    Dialog {
+        id: you_lost_dialog
+        anchors.centerIn: parent
+        modal: true
+        standardButtons: Dialog.Ok
+        title: "You lost"
+        Text {
+            font.pixelSize: 16
+            text: "Good luck next time..."
+        }
+    }
 
 }

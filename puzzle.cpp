@@ -1,15 +1,5 @@
 #include "puzzle.h"
 
-QVector<int> Puzzle::getUserSolution() const
-{
-    return userSolution;
-}
-
-void Puzzle::setUserSolution(const QVector<int> &value)
-{
-    userSolution = value;
-}
-
 // operator == for Puzzle class
 bool Puzzle::operator==(const Puzzle &puzzle)
 {
@@ -112,25 +102,17 @@ QString Puzzle::getTheme()
 // check puzzle solution with user solution given as value parameter
 int Puzzle::checkWithSolution(QVector<int> &value)
 {
-    setUserSolution(value);
-    return checkSolution();
-}
-
-// check puzzle solution with user solution attribute
-int Puzzle::checkSolution()
-{
     int mistakes = 0;
-    if(userSolution.size() != solution.size())
+    if(value.size() != solution.size())
     {
         return -1;
     }
     for(int i=0; i<solution.size(); i++)
     {
-        if(solution[i] != userSolution[i])
+        if(solution[i] != value[i] && solution[i] == 1)
         {
             mistakes++;
         }
     }
-    return mistakes;
+    return mistakes;;
 }
-

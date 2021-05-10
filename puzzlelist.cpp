@@ -18,7 +18,6 @@ PuzzleList::PuzzleList()
                            1,1,1,1,1,
                            1,1,1,1,0};
     puzzle1.addSolution(sol);
-    puzzle1.setUserSolution(userSol);
     QVector<QString> rows = {"4","4","2 1","5","4"};
     QVector<QString> columns = {"1\n3","5","2\n2","5","1\n1"};
     puzzle1.addRowDescription(rows);
@@ -38,7 +37,6 @@ PuzzleList::PuzzleList()
            0,0,1,0,0,
            1,1,1,1,1};
     puzzle2.addSolution(sol);
-    puzzle2.setUserSolution(userSol);
     rows = {"5","2 2","3","1","5"};
     columns = {"2\n1","3\n1","1\n3","3\n1","2\n1"};
     puzzle2.addRowDescription(rows);
@@ -58,7 +56,6 @@ PuzzleList::PuzzleList()
            1,1,0,1,1,
            1,1,0,1,1};
     puzzle3.addSolution(sol);
-    puzzle3.setUserSolution(userSol);
     rows = {"2","1 2","1","2 2","2 2"};
     columns = {"1\n2","2\n2","1","1\n2","1\n2"};
     puzzle3.addRowDescription(rows);
@@ -84,7 +81,6 @@ PuzzleList::PuzzleList()
            1,0,0,0,0,0,1,0,0,0,
            1,0,0,0,0,0,0,0,0,0};
     puzzle4.addSolution(sol);
-    puzzle4.setUserSolution(userSol);
     rows = {"4 2","1 1","1 2 1","2 3 1 1","2 2 1 1","2 1","2 4","2 2","1 1","1"};
     columns = {"1\n8","2\n5","1","6","3","1\n1","1\n1\n3","1\n1\n2","1","3"};
     puzzle4.addRowDescription(rows);
@@ -109,7 +105,6 @@ PuzzleList::PuzzleList()
            0,0,0,0,1,1,0,0,0,0,
            0,0,0,0,1,1,0,0,0,0};
     puzzle5.addSolution(sol);
-    puzzle5.setUserSolution(userSol);
     rows = {"6","2 2","2 2","2","3","4","2","0","2","2"};
     columns = {"0","2","3","1","1\n2\n2","1\n2\n2","1\n2","6","4","0"};
     puzzle5.addRowDescription(rows);
@@ -134,7 +129,6 @@ PuzzleList::PuzzleList()
            0,0,0,1,0,0,0,1,0,0,
            1,1,1,1,1,1,1,1,1,1};
     puzzle6.addSolution(sol);
-    puzzle6.setUserSolution(userSol);
     rows = {"1","7","1","1","3","1 1","3 2","10","1 1","10"};
     columns = {"1\n1","1\n1","1\n2\n1","1\n4","1\n4\n1","5\n1\n1","1\n1\n1\n1","1\n1\n3","1\n2\n1","2\n1"};
     puzzle6.addRowDescription(rows);
@@ -165,7 +159,6 @@ PuzzleList::PuzzleList()
            0,0,1,1,1,0,0,0,0,1,1,1,1,1,1,
            0,0,0,0,0,0,0,0,0,1,1,1,1,1,1};
     puzzle7.addSolution(sol);
-    puzzle7.setUserSolution(userSol);
     rows = {"2 2 2 1","2 2 1 1 2 1","4 1 1 2 1","5 5","2 5","7","1 1 5","11","12","13","8 5","1 3 5","5 5","3 6","6"};
     columns = {"2","3\n3","2\n2\n2","4\n6","5\n7","2\n7","3\n1\n4","7","2\n4","2\n6\n2","12","15","4\n10","1\n9","4\n8"};
     puzzle7.addRowDescription(rows);
@@ -195,7 +188,6 @@ PuzzleList::PuzzleList()
            0,1,1,1,1,1,1,0,1,1,1,1,0,0,0,
            0,0,1,1,1,1,1,1,1,1,0,0,0,0,0};
     puzzle8.addSolution(sol);
-    puzzle8.setUserSolution(userSol);
     rows = {"4","3 1","3 1 1","5 1","2 1 2","2 1 3","5 4","3 1 5","7 4 1","3 1 7","2 6 1 1","2 9","2 4 1 1","6 4","8"};
     columns = {"3","6","2\n3","2\n2","3\n2","3\n5","2\n1\n5","5\n3\n1","3\n1\n6","3\n1\n4\n2","6\n7","2\n1\n4\n1\n1","1\n2\n8","1\n4\n1\n1","10"};
     puzzle8.addRowDescription(rows);
@@ -225,7 +217,6 @@ PuzzleList::PuzzleList()
            1,0,1,0,0,1,0,1,1,1,1,0,0,1,1,
            1,1,1,1,1,1,1,1,1,0,0,1,1,0,0};
     puzzle9.addSolution(sol);
-    puzzle9.setUserSolution(userSol);
     rows = {"2 2","1 1","2 2 3","1 6","3 7","13","1 5 1","1 1 1 2","1 1 5","15","15","1 4 8","13","1 1 1 4 2","9 2"};
     columns = {"1\n1\n8","1\n1\n2\n2\n1\n1","1\n3\n6","1\n1\n2\n4\n1","1\n1\n2\n4\n1","1\n6","2\n2\n1\n1","10","3\n6","4\n5","11","3\n5\n1","4\n5\n1","10\n1","4\n5\n1"};
     puzzle9.addRowDescription(rows);

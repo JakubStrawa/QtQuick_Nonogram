@@ -12,7 +12,7 @@ NonogramModel::NonogramModel(QObject *parent)
 QModelIndex NonogramModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (parent.isValid()) return QModelIndex();
-    if (row >= m_puzzles.count() || column >= 6 || column < 0 || row < 0)
+    if (row >= m_puzzles.count() || column >= 5 || column < 0 || row < 0)
         return QModelIndex();
     return createIndex(row, column, nullptr);
 }
@@ -29,7 +29,7 @@ int NonogramModel::rowCount(const QModelIndex &parent) const
 
 int NonogramModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : 6;
+    return parent.isValid() ? 0 : 5;
 }
 
 // get data under index
@@ -48,7 +48,6 @@ QVariant NonogramModel::data(const QModelIndex &index, int role) const
         case 2: return QVariant::fromValue(tmp.getSolution());
         case 3: return tmp.getRowDescription();
         case 4: return tmp.getColumnDescription();
-        case 5: return QVariant::fromValue(tmp.getUserSolution());
         default: return QVariant();
         }
     }
@@ -92,13 +91,6 @@ bool NonogramModel::setData(const QModelIndex &index, const QVariant &value, int
         {
             QList<QString> list = value.toStringList();
             this->m_puzzles[index.row()].addColumnDescription(list);
-            emit dataChanged(index, index, QVector<int>() << role);
-            return true;
-        }
-        else if(index.column() == 5)
-        {
-            QVector<int> vector = value.value<QVector<int>>();
-            this->m_puzzles[index.row()].setUserSolution(vector);
             emit dataChanged(index, index, QVector<int>() << role);
             return true;
         }
@@ -148,9 +140,6 @@ void NonogramModel::setPuzzles(QVector<Puzzle> puzzles)
 
 void NonogramModel::setSize(int size)
 {
-    if (m_size == size)
-        return;
-
     m_size = size;
     setPuzzleNumber();
     emit sizeChanged(m_size);
@@ -158,9 +147,6 @@ void NonogramModel::setSize(int size)
 
 void NonogramModel::setTheme(QString theme)
 {
-    if (m_theme == theme)
-        return;
-
     m_theme = theme;
     setPuzzleNumber();
     emit themeChanged(m_theme);
@@ -246,9 +232,19 @@ void NonogramModel::setUserSolutionSpecific(int position, int value)
     emit userSolutionChanged(m_userSolution);
 }
 
+int NonogramModel::getUserSolutionSpecific(int position)
+{
+    return m_userSolution[position];
+}
+
 int NonogramModel::checkUserSolution()
 {
     return m_puzzles[currentPuzzleNumber].checkWithSolution(m_userSolution);
+}
+
+void NonogramModel::resetModel()
+{
+    this->currentPuzzleNumber = -1;
 }
 
 void NonogramModel::setPuzzleNumber()
@@ -261,7 +257,10 @@ void NonogramModel::setPuzzleNumber()
             this->setRowDescription(m_puzzles[i].getRowDescription());
             this->setColumnDescription(m_puzzles[i].getColumnDescription());
             this->setSolution(m_puzzles[i].getSolution());
-            this->setUserSolution(m_puzzles[i].getUserSolution());
+            QVector<int> userSol = {};
+            for(auto i : this->m_solution)
+               userSol.append(0);
+            this->setUserSolution(userSol);
             return;
         }
     }

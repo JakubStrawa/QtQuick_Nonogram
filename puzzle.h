@@ -11,7 +11,6 @@ private:
     QVector<int> solution;
     QVector<QString> rows;
     QVector<QString> columns;
-    QVector<int> userSolution;
 
 public:
     Puzzle();
@@ -28,11 +27,8 @@ public:
     QVector<QString> getRowDescription();
     void addColumnDescription( QVector<QString> &columns);
     QVector<QString> getColumnDescription();
-    QVector<int> getUserSolution() const;
-    void setUserSolution(const QVector<int> &value);
 
     int checkWithSolution(QVector<int> &userSolution);
-    int checkSolution();
 
     bool operator==(const Puzzle &puzzle);
     bool operator!=(const Puzzle &puzzle);

@@ -58,9 +58,17 @@ ApplicationWindow {
                 if (lives_left_label.lives_left == 0){
                     mistakes_left_label.mistakes_left == 0 ? you_won_dialog.open() : you_lost_dialog.open()
                     check_button.enabled = false
+                    nonogram_model.setIsActive(false)
+                    for (var i=0; i<tile_repeater.count; i++){
+                        tile_repeater.itemAt(i).rotation += 360
+                    }
                 } else if(mistakes_left_label.mistakes_left == 0){
                     you_won_dialog.open()
                     check_button.enabled = false
+                    nonogram_model.setIsActive(false)
+                    for (var i=0; i<tile_repeater.count; i++){
+                        tile_repeater.itemAt(i).rotation += 360
+                    }
                 }
             }
 
@@ -135,27 +143,27 @@ ApplicationWindow {
             border.color: "black"
             border.width: 1
 
-            NumberAnimation {
-                id: tile_animation
-                target: tile
-                property: "rotation"
-                from: 0
-                to: 360
-                duration: 10000
-                loops: Animation.Infinite
+            Behavior on rotation {
+                NumberAnimation {
+                    target: tile
+                    property: "rotation"
+                    from: 0
+                    to: 360
+                    duration: 5000
+                }
             }
 
             MouseArea {
                 anchors.fill : parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    if (mouse.button == Qt.LeftButton) {
+                    if (mouse.button == Qt.LeftButton && nonogram_model.isActive) {
                         if (nonogram_model.getUserSolutionSpecific(modelData) == 1){
                             nonogram_model.setUserSolutionSpecific(modelData, 0)
                         } else {
                             nonogram_model.setUserSolutionSpecific(modelData, 1)
                         }
-                    } else if (mouse.button == Qt.RightButton) {
+                    } else if (mouse.button == Qt.RightButton && nonogram_model.isActive) {
                         if (nonogram_model.getUserSolutionSpecific(modelData) == 2){
                             nonogram_model.setUserSolutionSpecific(modelData, 0)
                         } else {

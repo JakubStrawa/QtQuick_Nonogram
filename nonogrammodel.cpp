@@ -6,13 +6,15 @@ NonogramModel::NonogramModel(QObject *parent)
 {
     PuzzleList list = PuzzleList();
     m_puzzles = list.puzzles;
+    currentPuzzleNumber = -1;
+    m_isActive = false;
 }
 
 // create index for row and column
 QModelIndex NonogramModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (parent.isValid()) return QModelIndex();
-    if (row >= m_puzzles.count() || column >= 5 || column < 0 || row < 0)
+    if (row >= m_puzzles.count() || column >= 7 || column < 0 || row < 0)
         return QModelIndex();
     return createIndex(row, column, nullptr);
 }
@@ -29,7 +31,7 @@ int NonogramModel::rowCount(const QModelIndex &parent) const
 
 int NonogramModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : 5;
+    return parent.isValid() ? 0 : 7;
 }
 
 // get data under index
@@ -48,6 +50,8 @@ QVariant NonogramModel::data(const QModelIndex &index, int role) const
         case 2: return QVariant::fromValue(tmp.getSolution());
         case 3: return tmp.getRowDescription();
         case 4: return tmp.getColumnDescription();
+        case 5: return QVariant::fromValue(this->userSolution());
+        case 6: return this->isActive();
         default: return QVariant();
         }
     }
@@ -188,6 +192,15 @@ void NonogramModel::setUserSolution(QVector<int> value)
     emit userSolutionChanged(m_userSolution);
 }
 
+void NonogramModel::setIsActive(bool isActive)
+{
+    if (m_isActive == isActive)
+        return;
+
+    m_isActive = isActive;
+    emit isActiveChanged(m_isActive);
+}
+
 QVector<Puzzle> NonogramModel::puzzles() const
 {
     return m_puzzles;
@@ -242,9 +255,9 @@ int NonogramModel::checkUserSolution()
     return m_puzzles[currentPuzzleNumber].checkWithSolution(m_userSolution);
 }
 
-void NonogramModel::resetModel()
+bool NonogramModel::isActive() const
 {
-    this->currentPuzzleNumber = -1;
+    return m_isActive;
 }
 
 void NonogramModel::setPuzzleNumber()
@@ -257,6 +270,7 @@ void NonogramModel::setPuzzleNumber()
             this->setRowDescription(m_puzzles[i].getRowDescription());
             this->setColumnDescription(m_puzzles[i].getColumnDescription());
             this->setSolution(m_puzzles[i].getSolution());
+            this->setIsActive(true);
             QVector<int> userSol = {};
             for(auto i : this->m_solution)
                userSol.append(0);

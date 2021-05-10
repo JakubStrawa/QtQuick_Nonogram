@@ -32,6 +32,7 @@ Dialog {
         nonogram_model.setTheme(theme_combo_box.currentText)
         nonogram_model.setSize(5 + 5*(size_combo_box.currentIndex))
         check_button.enabled = true
+        nonogram_model.setIsActive(true)
         for (var i=0; i<tile_repeater.count; i++){
             tile_repeater.itemAt(i).color = "white"
         }

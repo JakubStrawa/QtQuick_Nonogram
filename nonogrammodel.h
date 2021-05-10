@@ -14,6 +14,7 @@ class NonogramModel : public QAbstractItemModel
     Q_PROPERTY(QVector<QString> rowDescription READ rowDescription WRITE setRowDescription NOTIFY rowDescriptionChanged)
     Q_PROPERTY(QVector<int> solution READ solution WRITE setSolution NOTIFY solutionChanged)
     Q_PROPERTY(QVector<int> userSolution READ userSolution WRITE setUserSolution NOTIFY userSolutionChanged)
+    Q_PROPERTY(bool isActive READ isActive WRITE setIsActive NOTIFY isActiveChanged)
 
 
 public:
@@ -43,11 +44,11 @@ public:
     QVector<QString> rowDescription() const;
     QVector<int> solution() const;
     QVector<int> userSolution() const;
+    bool isActive() const;
 
     Q_INVOKABLE void setUserSolutionSpecific(int position, int value);
     Q_INVOKABLE int getUserSolutionSpecific(int position);
     Q_INVOKABLE int checkUserSolution();
-    Q_INVOKABLE void resetModel();
 
 
 public slots:
@@ -58,6 +59,7 @@ public slots:
     void setRowDescription(QVector<QString> rowDescription);
     void setSolution(QVector<int> solution);
     void setUserSolution(QVector<int> userSolution);
+    void setIsActive(bool isActive);
 
 signals:
     void puzzlesChanged(QVector<Puzzle> puzzles);
@@ -67,6 +69,7 @@ signals:
     void rowDescriptionChanged(QVector<QString> rowDescription);
     void solutionChanged(QVector<int> solution);
     void userSolutionChanged(QVector<int> userSolution);
+    void isActiveChanged(bool isActive);
 
 protected:
     int currentPuzzleNumber;
@@ -80,6 +83,7 @@ private:
     QVector<QString> m_rowDescription;
     QVector<int> m_solution;
     QVector<int> m_userSolution;
+    bool m_isActive;
 };
 
 #endif // NONOGRAMMODEL_H

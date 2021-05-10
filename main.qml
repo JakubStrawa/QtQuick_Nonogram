@@ -1,14 +1,21 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import NonogramModel 1.0
+
+
 
 ApplicationWindow {
     id: root
+    property var nmodel: NonogramModel
     width: 640
     height: 480
     visible: true
     color: "white"
     title: "Nonogram QtQuick"
+
+
+
 
     menuBar: MenuBar {
              Menu {
@@ -49,7 +56,9 @@ ApplicationWindow {
             height: 20
             text: "Check"
             onClicked: {
-                column_repeater.itemAt(0).itemAt(0).tile_animation.start()
+                lives_left_label.lives_left--
+                mistakes_left_label.mistakes_left = nonogram_model.checkUserSolution()
+                console.log(nonogram_model.userSolution)
             }
 
         }
@@ -61,10 +70,11 @@ ApplicationWindow {
         }
 
         Label {
+            property int mistakes_left: 0
             id: mistakes_left_label
             anchors.centerIn: parent
             topPadding: 20
-            text: "0"
+            text: mistakes_left
         }
 
         Label {
@@ -75,17 +85,19 @@ ApplicationWindow {
         }
 
         Label {
+            property int lives_left: 0
             id: lives_left_label
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
-            text: "0"
+            text: lives_left
         }
     }
 
     Repeater {
         id: columns_description
-        model: ["3\n2", "5", "1\n1\n1\n1\n1\n1", "3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "2\n1\n2\n1"]
+        //model: ["3\n2", "5", "1\n1\n1\n1\n1\n1", "3\n2", "5", "1\n1\n1", "3\n2", "5", "1\n1\n1", "2\n1\n2\n1"]
+        model: nonogram_model.columnDescription
 
         Text {
             x: 0.35 * root.width + (25 * index) + 7
@@ -96,7 +108,8 @@ ApplicationWindow {
 
     Repeater {
         id: rows_description
-        model: ["3 2", "5", "1 1 1 1 1 1", "3 2", "5", "1 1 1", "3 2", "5", "1 1 1", "2 1 2 1"]
+        //model: ["3 2", "5", "1 1 1 1 1 1", "3 2", "5", "1 1 1", "3 2", "5", "1 1 1", "2 1 2 1"]
+        model: nonogram_model.rowDescription
 
         Text {
             x: 0.32 * root.width - contentWidth
@@ -107,7 +120,7 @@ ApplicationWindow {
 
     Repeater {
         id: tile_repeater
-        property int puzzle_size: 10
+        property int puzzle_size: nonogram_model.size
         model: puzzle_size * puzzle_size
 
         Rectangle {
@@ -135,9 +148,20 @@ ApplicationWindow {
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
                     if (mouse.button == Qt.LeftButton) {
-                        Qt.colorEqual(parent.color, "blue") ? parent.color = "white" : parent.color = "blue"
+                        if (Qt.colorEqual(parent.color, "blue")){
+                            parent.color = "white"
+                            nonogram_model.setUserSolutionSpecific(modelData, 0)
+                        } else {
+                            parent.color = "blue"
+                            nonogram_model.setUserSolutionSpecific(modelData, 1)
+                        }
                     } else if (mouse.button == Qt.RightButton) {
-                        Qt.colorEqual(parent.color, "red") ? parent.color = "white" : parent.color = "red"
+                        if (Qt.colorEqual(parent.color, "red")){
+                            parent.color = "white"
+                        } else {
+                            parent.color = "red"
+                            nonogram_model.setUserSolutionSpecific(modelData, 0)
+                        }
                     }
                 }
             }
@@ -152,6 +176,10 @@ ApplicationWindow {
     About_dialog {
         id: about_dialog
         anchors.centerIn: parent
+    }
+
+    NonogramModel {
+        id: nonogram_model
     }
 
 

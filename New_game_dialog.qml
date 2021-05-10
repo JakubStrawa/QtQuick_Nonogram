@@ -27,8 +27,9 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     onAccepted: {
-        tile_repeater.puzzle_size = size_combo_box.currentIndex*5 + 5
-        mistakes_left_label.text = "Press Check"
-        lives_left_label.text = lives_spin_box.value
+        mistakes_left_label.mistakes_left = -1
+        lives_left_label.lives_left = lives_spin_box.value
+        nonogram_model.setSize(5 + 5*(size_combo_box.currentIndex))
+        nonogram_model.setTheme(theme_combo_box.currentText)
     }
 }

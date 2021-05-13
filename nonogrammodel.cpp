@@ -7,6 +7,7 @@ NonogramModel::NonogramModel(QObject *parent)
     PuzzleList list = PuzzleList();
     m_puzzles = list.puzzles;
     currentPuzzleNumber = -1;
+    m_size = 0;
     m_isActive = false;
 }
 

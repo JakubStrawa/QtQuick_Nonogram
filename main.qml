@@ -66,8 +66,8 @@ ApplicationWindow {
                     you_won_dialog.open()
                     check_button.enabled = false
                     nonogram_model.setIsActive(false)
-                    for (var i=0; i<tile_repeater.count; i++){
-                        tile_repeater.itemAt(i).rotation += 360
+                    for (var j=0; j<tile_repeater.count; j++){
+                        tile_repeater.itemAt(j).rotation += 360
                     }
                 }
             }
@@ -157,18 +157,10 @@ ApplicationWindow {
                 anchors.fill : parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    if (mouse.button == Qt.LeftButton && nonogram_model.isActive) {
-                        if (nonogram_model.getUserSolutionSpecific(modelData) == 1){
-                            nonogram_model.setUserSolutionSpecific(modelData, 0)
-                        } else {
-                            nonogram_model.setUserSolutionSpecific(modelData, 1)
-                        }
-                    } else if (mouse.button == Qt.RightButton && nonogram_model.isActive) {
-                        if (nonogram_model.getUserSolutionSpecific(modelData) == 2){
-                            nonogram_model.setUserSolutionSpecific(modelData, 0)
-                        } else {
-                            nonogram_model.setUserSolutionSpecific(modelData, 2)
-                        }
+                    if (mouse.button === Qt.LeftButton && nonogram_model.isActive) {
+                        nonogram_model.getUserSolutionSpecific(modelData) === 1 ? nonogram_model.setUserSolutionSpecific(modelData, 0) : nonogram_model.setUserSolutionSpecific(modelData, 1)
+                    } else if (mouse.button === Qt.RightButton && nonogram_model.isActive) {
+                        nonogram_model.getUserSolutionSpecific(modelData) === 2 ? nonogram_model.setUserSolutionSpecific(modelData, 0) : nonogram_model.setUserSolutionSpecific(modelData, 2)
                     }
                     parent.color = colors[nonogram_model.getUserSolutionSpecific(modelData)]
                 }

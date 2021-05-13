@@ -7,8 +7,8 @@ import NonogramModel 1.0
 ApplicationWindow {
     id: root
     property var nmodel: NonogramModel
-    width: 640
-    height: 480
+    width: 700
+    height: 600
     visible: true
     color: "white"
     title: "Nonogram QtQuick"

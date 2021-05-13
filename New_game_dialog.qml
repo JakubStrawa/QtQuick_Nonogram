@@ -5,6 +5,7 @@ import QtQuick.Controls 2.12
 Dialog {
     id: new_game_dialog
     title: "New game"
+    modal: true
     Column {
         anchors.centerIn: parent
         spacing: 10
